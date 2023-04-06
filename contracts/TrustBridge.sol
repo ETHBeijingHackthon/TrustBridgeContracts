@@ -51,6 +51,7 @@ contract TrustBridge is ERC721URIStorage {
         _mintNFT(0, _sort, _coverURI, _multimedia, _title, _description);
     }
 
+    // return the minted NFT ID
     function _mintNFT(
         uint fid,
         string memory _sort,
@@ -58,7 +59,7 @@ contract TrustBridge is ERC721URIStorage {
         string memory _multimedia,
         string memory _title,
         string memory _description
-    ) private {
+    ) private returns (uint256) {
         uint256 nftCount = _tokenIds.current();
         nfts[nftCount] = CustomDataTypes.NFT(
             nftCount,
@@ -87,6 +88,7 @@ contract TrustBridge is ERC721URIStorage {
             _title,
             _description
         );
+        return nftCount;
     }
 
     function reviewNFT(
@@ -110,13 +112,20 @@ contract TrustBridge is ERC721URIStorage {
                 nfts[_nftId].reviewCount;
         }
 
-        _mintNFT(_nftId, "", "", _multimedia, "", _description);
+        uint256 reviewId = _mintNFT(
+            _nftId,
+            "",
+            "",
+            _multimedia,
+            "",
+            _description
+        );
 
         _hasReviewed[msg.sender][_nftId] = true;
         reviews[_nftId].push(
             CustomDataTypes.Review({
                 nftId: _nftId,
-                reviewId: _tokenIds.current(),
+                reviewId: reviewId,
                 reviewer: msg.sender,
                 score: score,
                 description: _description,
@@ -126,7 +135,7 @@ contract TrustBridge is ERC721URIStorage {
 
         emit NFTReviewed(
             _nftId,
-            _tokenIds.current(),
+            reviewId,
             nfts[_nftId].reviewCount,
             nfts[_nftId].score,
             msg.sender,

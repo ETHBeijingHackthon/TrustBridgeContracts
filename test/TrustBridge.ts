@@ -55,7 +55,7 @@ describe('TrusBridge', function () {
 
       await expect(promise)
         .to.emit(trustBridge, 'NFTReviewed')
-        .withArgs(1, 1, 5, owner.address, 5, 'desc', 'CID')
+        .withArgs(1, 2, 1, 5, owner.address, 5, 'desc', 'CID')
     })
   })
 })
