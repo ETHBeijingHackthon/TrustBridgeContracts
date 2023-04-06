@@ -6,12 +6,12 @@ async function main() {
   console.log('Deploying contracts with the account:', deployer.address)
   console.log('Account balance:', (await deployer.getBalance()).toString())
 
-  const TrusBridge = await ethers.getContractFactory('TrusBridge')
-  const trusBridge = await TrusBridge.deploy()
+  const TrustBridge = await ethers.getContractFactory('TrustBridge')
+  const trustBridge = await TrustBridge.deploy()
 
-  await trusBridge.deployed()
+  await trustBridge.deployed()
 
-  console.log(`TrusBridge deployed to ${trusBridge.address}`)
+  console.log(`TrustBridge deployed to ${trustBridge.address}`)
 }
 
 // We recommend this pattern to be able to use async/await everywhere
