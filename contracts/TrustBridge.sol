@@ -32,6 +32,7 @@ contract TrustBridge is ERC721URIStorage {
     mapping(uint => NFT) public nfts;
     mapping(uint256 => Review[]) public reviews;
     mapping(address => mapping(uint256 => bool)) private _hasCollected;
+    mapping(address => mapping(uint256 => bool)) private _hasReviewed;
 
     event NFTCreated(
         uint id,
@@ -117,21 +118,27 @@ contract TrustBridge is ERC721URIStorage {
         require(_exists(_nftId), "Invalid NFT id");
         require(_score >= 0 && _score <= 10, "Invalid score");
 
-        if (_score > 0) {
+        uint256 score = _score;
+        if (_hasReviewed[msg.sender][_nftId]) {
+            score = 0;
+        }
+
+        if (score > 0) {
             nfts[_nftId].reviewCount++;
             nfts[_nftId].score =
-                (nfts[_nftId].score + _score) /
+                (nfts[_nftId].score + score) /
                 nfts[_nftId].reviewCount;
         }
 
         _mintNFT(_nftId, "", "", _multimedia, "", _description);
 
+        _hasReviewed[msg.sender][_nftId] = true;
         reviews[_nftId].push(
             Review({
                 nftId: _nftId,
                 reviewId: _tokenIds.current(),
                 reviewer: msg.sender,
-                score: _score,
+                score: score,
                 description: _description,
                 multimedia: _multimedia
             })
@@ -141,7 +148,7 @@ contract TrustBridge is ERC721URIStorage {
             _nftId,
             nfts[_nftId].reviewCount,
             msg.sender,
-            _score,
+            score,
             _description,
             _multimedia
         );
