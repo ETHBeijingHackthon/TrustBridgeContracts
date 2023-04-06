@@ -6,6 +6,8 @@ const ANKR_API_KEY = process.env.ANKR_API_KEY
 
 const PRIVATE_KEY = process.env.PRIVATE_KEY
 
+console.log(process.env.FTMTESTNET_API_KEY)
+
 https: module.exports = {
   solidity: '0.8.18',
   networks: {
@@ -16,6 +18,11 @@ https: module.exports = {
     fantom_testnet: {
       url: `https://rpc.ankr.com/fantom_testnet/${ANKR_API_KEY}`,
       accounts: [PRIVATE_KEY],
+    },
+  },
+  etherscan: {
+    apiKey: {
+      ftmTestnet: process.env.FTMTESTNET_API_KEY,
     },
   },
 }
