@@ -8,6 +8,7 @@ contract TrustBridge is ERC721URIStorage {
     struct NFT {
         uint id;
         uint fid;
+        string sort;
         address owner;
         string coverURI;
         string multimedia;
@@ -34,6 +35,7 @@ contract TrustBridge is ERC721URIStorage {
     event NFTCreated(
         uint id,
         uint fid,
+        string sort,
         address owner,
         string cover,
         string multimedia,
@@ -57,16 +59,18 @@ contract TrustBridge is ERC721URIStorage {
     }
 
     function createNFT(
+        string memory _sort,
         string memory _coverURI,
         string memory _multimedia,
         string memory _title,
         string memory _description
     ) public {
-        _mintNFT(0, _coverURI, _multimedia, _title, _description);
+        _mintNFT(0, _sort, _coverURI, _multimedia, _title, _description);
     }
 
     function _mintNFT(
         uint fid,
+        string memory _sort,
         string memory _coverURI,
         string memory _multimedia,
         string memory _title,
@@ -76,6 +80,7 @@ contract TrustBridge is ERC721URIStorage {
         nfts[nftCount] = NFT(
             nftCount,
             fid,
+            _sort,
             msg.sender,
             _coverURI,
             _multimedia,
@@ -92,6 +97,7 @@ contract TrustBridge is ERC721URIStorage {
         emit NFTCreated(
             nftCount,
             fid,
+            _sort,
             msg.sender,
             _coverURI,
             _multimedia,
@@ -106,15 +112,17 @@ contract TrustBridge is ERC721URIStorage {
         string memory _description,
         string memory _multimedia
     ) public {
-        uint256 nftCount = _tokenIds.current();
-        require(_nftId > 0 && _nftId < nftCount, "Invalid NFT id");
-        require(_score > 0 && _score <= 10, "Invalid score");
-        nfts[_nftId].reviewCount++;
-        nfts[_nftId].score =
-            (nfts[_nftId].score + _score) /
-            nfts[_nftId].reviewCount;
+        require(_exists(_nftId), "Invalid NFT id");
+        require(_score >= 0 && _score <= 10, "Invalid score");
 
-        _mintNFT(_nftId, "", _multimedia, "", _description);
+        if (_score > 0) {
+            nfts[_nftId].reviewCount++;
+            nfts[_nftId].score =
+                (nfts[_nftId].score + _score) /
+                nfts[_nftId].reviewCount;
+        }
+
+        _mintNFT(_nftId, "", "", _multimedia, "", _description);
 
         reviews[_nftId].push(
             Review({
@@ -135,5 +143,15 @@ contract TrustBridge is ERC721URIStorage {
             _description,
             _multimedia
         );
+    }
+
+    function collectNFT(uint256 _nftId) public {
+        require(_exists(_nftId), "NFT does not exist");
+        nfts[_nftId].reviewCount++;
+    }
+
+    function getCollectionCount(uint256 _nftId) public view returns (uint256) {
+        require(_exists(_nftId), "NFT does not exist");
+        return nfts[_nftId].reviewCount;
     }
 }
