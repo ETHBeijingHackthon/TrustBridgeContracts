@@ -1,6 +1,11 @@
 import { ethers } from 'hardhat'
 
 async function main() {
+  const [deployer] = await ethers.getSigners()
+
+  console.log('Deploying contracts with the account:', deployer.address)
+  console.log('Account balance:', (await deployer.getBalance()).toString())
+
   const TrusBridge = await ethers.getContractFactory('TrusBridge')
   const trusBridge = await TrusBridge.deploy()
 
