@@ -31,7 +31,7 @@ contract TrustBridge is ERC721URIStorage {
         string description,
         string multimedia
     );
-    event NFTCollected(uint nftId, address collector);
+    event NFTCollected(uint nftId, address collector, uint NFTCollected);
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -137,8 +137,10 @@ contract TrustBridge is ERC721URIStorage {
     function collectNFT(uint256 _nftId) public {
         require(_exists(_nftId), "NFT does not exist");
         require(!_hasCollected[msg.sender][_nftId], "NFT already collected");
-        nfts[_nftId].reviewCount++;
+        nfts[_nftId].collectCount++;
         _hasCollected[msg.sender][_nftId] = true;
+
+        emit NFTCollected(_nftId, msg.sender, nfts[_nftId].collectCount);
     }
 
     function getCollectionCount(uint256 _nftId) public view returns (uint256) {
