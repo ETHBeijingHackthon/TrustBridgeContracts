@@ -17,7 +17,6 @@ contract TrustBridge is ERC721URIStorage {
         uint reviewCount;
         uint score;
         uint collectCount;
-        // mapping(uint => Review) reviews;
     }
 
     struct Review {
