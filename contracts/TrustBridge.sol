@@ -25,6 +25,7 @@ contract TrustBridge is ERC721URIStorage {
     event NFTReviewed(
         uint nftId,
         uint reviewId,
+        uint reviewCount,
         uint nftScore,
         address reviewer,
         uint score,
@@ -125,6 +126,7 @@ contract TrustBridge is ERC721URIStorage {
 
         emit NFTReviewed(
             _nftId,
+            _tokenIds.current(),
             nfts[_nftId].reviewCount,
             nfts[_nftId].score,
             msg.sender,
