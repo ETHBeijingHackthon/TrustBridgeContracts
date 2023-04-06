@@ -1,35 +1,14 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.10;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 
+import {CustomDataTypes} from "./libraries/CustomDataTypes.sol";
+
 contract TrustBridge is ERC721URIStorage {
-    struct NFT {
-        uint id;
-        uint fid;
-        string sort;
-        address owner;
-        string coverURI;
-        string multimedia;
-        string title;
-        string description;
-        uint reviewCount;
-        uint score;
-        uint collectCount;
-    }
-
-    struct Review {
-        uint nftId;
-        uint reviewId;
-        address reviewer;
-        uint score;
-        string description;
-        string multimedia;
-    }
-
-    mapping(uint => NFT) public nfts;
-    mapping(uint256 => Review[]) public reviews;
+    mapping(uint => CustomDataTypes.NFT) public nfts;
+    mapping(uint256 => CustomDataTypes.Review[]) public reviews;
     mapping(address => mapping(uint256 => bool)) private _hasCollected;
     mapping(address => mapping(uint256 => bool)) private _hasReviewed;
 
@@ -79,7 +58,7 @@ contract TrustBridge is ERC721URIStorage {
         string memory _description
     ) private {
         uint256 nftCount = _tokenIds.current();
-        nfts[nftCount] = NFT(
+        nfts[nftCount] = CustomDataTypes.NFT(
             nftCount,
             fid,
             _sort,
@@ -133,7 +112,7 @@ contract TrustBridge is ERC721URIStorage {
 
         _hasReviewed[msg.sender][_nftId] = true;
         reviews[_nftId].push(
-            Review({
+            CustomDataTypes.Review({
                 nftId: _nftId,
                 reviewId: _tokenIds.current(),
                 reviewer: msg.sender,
