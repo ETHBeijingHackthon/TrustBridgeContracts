@@ -121,10 +121,12 @@ contract TrustBridge is ERC721URIStorage {
         }
 
         if (score > 0) {
-            nfts[_nftId].reviewCount++;
+            // Calculate the avarage score
             nfts[_nftId].score =
-                (nfts[_nftId].score + score) /
-                nfts[_nftId].reviewCount;
+                (nfts[_nftId].score * nfts[_nftId].reviewCount + score) /
+                (nfts[_nftId].reviewCount + 1);
+
+            nfts[_nftId].reviewCount++;
         }
 
         uint256 reviewId = _mintNFT(

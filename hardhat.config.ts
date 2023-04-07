@@ -12,6 +12,7 @@ https: module.exports = {
     goerli: {
       url: `https://goerli.infura.io/v3/${INFURA_API_KEY}`,
       accounts: [PRIVATE_KEY],
+      gas: 'auto',
     },
     fantom_testnet: {
       url: `https://rpc.ankr.com/fantom_testnet/${ANKR_API_KEY}`,
@@ -21,6 +22,7 @@ https: module.exports = {
   etherscan: {
     apiKey: {
       ftmTestnet: process.env.FTMTESTNET_API_KEY,
+      goerli: process.env.ETHERSCAN_API_KEY,
     },
   },
 }
