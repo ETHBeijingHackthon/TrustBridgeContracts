@@ -18,7 +18,7 @@ describe('TrusBridge', function () {
       const { trustBridge, owner } = await loadFixture(deployTrustBridge)
 
       await expect(
-        trustBridge.createNFT('Coffee', 'CID1', 'CID2', 'title', 'desc')
+        trustBridge.createNFT('Coffee', 'CID1', 'img', 'CID2', 'title', 'desc')
       )
         .to.emit(trustBridge, 'NFTCreated')
         .withArgs(
@@ -27,6 +27,7 @@ describe('TrusBridge', function () {
           'Coffee',
           owner.address,
           'CID1',
+          'img',
           'CID2',
           'title',
           'desc'
@@ -39,23 +40,30 @@ describe('TrusBridge', function () {
       const { trustBridge, owner } = await loadFixture(deployTrustBridge)
 
       await expect(
-        trustBridge.reviewNFT(1, 5, 'desc', 'CID')
+        trustBridge.reviewNFT(1, 5, 'desc', 'video', 'CID')
       ).to.be.rejectedWith('Invalid NFT id')
     })
 
     it('Should emit two events on Review', async () => {
       const { trustBridge, owner } = await loadFixture(deployTrustBridge)
 
-      await trustBridge.createNFT('Coffee', 'CID1', 'CID2', 'title', 'desc')
+      await trustBridge.createNFT(
+        'Coffee',
+        'CID1',
+        'img',
+        'CID2',
+        'title',
+        'desc'
+      )
 
-      const promise = trustBridge.reviewNFT(1, 5, 'desc', 'CID')
+      const promise = trustBridge.reviewNFT(1, 5, 'desc', 'video', 'CID')
       await expect(promise)
         .to.emit(trustBridge, 'NFTCreated')
-        .withArgs(2, 1, '', owner.address, '', 'CID', '', 'desc')
+        .withArgs(2, 1, '', owner.address, '', 'video', 'CID', '', 'desc')
 
       await expect(promise)
         .to.emit(trustBridge, 'NFTReviewed')
-        .withArgs(1, 2, 1, 5, owner.address, 5, 'desc', 'CID')
+        .withArgs(1, 2, 1, 5, owner.address, 5, 'desc', 'video', 'CID')
     })
   })
 })
