@@ -14,6 +14,7 @@ library CustomDataTypes {
         string sort;
         address owner;
         string coverURI;
+        string mediaType;
         string multimedia;
         string title;
         string description;

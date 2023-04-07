@@ -18,6 +18,7 @@ contract TrustBridge is ERC721URIStorage {
         string sort,
         address owner,
         string cover,
+        string mediaType,
         string multimedia,
         string title,
         string description
@@ -30,6 +31,7 @@ contract TrustBridge is ERC721URIStorage {
         address reviewer,
         uint score,
         string description,
+        string mediaType,
         string multimedia
     );
     event NFTCollected(uint nftId, address collector, uint NFTCollected);
@@ -44,11 +46,20 @@ contract TrustBridge is ERC721URIStorage {
     function createNFT(
         string memory _sort,
         string memory _coverURI,
+        string memory _mediaType,
         string memory _multimedia,
         string memory _title,
         string memory _description
     ) public {
-        _mintNFT(0, _sort, _coverURI, _multimedia, _title, _description);
+        _mintNFT(
+            0,
+            _sort,
+            _coverURI,
+            _mediaType,
+            _multimedia,
+            _title,
+            _description
+        );
     }
 
     // return the minted NFT ID
@@ -56,6 +67,7 @@ contract TrustBridge is ERC721URIStorage {
         uint fid,
         string memory _sort,
         string memory _coverURI,
+        string memory _mediaType,
         string memory _multimedia,
         string memory _title,
         string memory _description
@@ -67,6 +79,7 @@ contract TrustBridge is ERC721URIStorage {
             _sort,
             msg.sender,
             _coverURI,
+            _mediaType,
             _multimedia,
             _title,
             _description,
@@ -84,6 +97,7 @@ contract TrustBridge is ERC721URIStorage {
             _sort,
             msg.sender,
             _coverURI,
+            _mediaType,
             _multimedia,
             _title,
             _description
@@ -95,6 +109,7 @@ contract TrustBridge is ERC721URIStorage {
         uint _nftId,
         uint _score,
         string memory _description,
+        string memory _mediaType,
         string memory _multimedia
     ) public {
         require(_exists(_nftId), "Invalid NFT id");
@@ -116,6 +131,7 @@ contract TrustBridge is ERC721URIStorage {
             _nftId,
             "",
             "",
+            _mediaType,
             _multimedia,
             "",
             _description
@@ -141,6 +157,7 @@ contract TrustBridge is ERC721URIStorage {
             msg.sender,
             score,
             _description,
+            _mediaType,
             _multimedia
         );
     }
