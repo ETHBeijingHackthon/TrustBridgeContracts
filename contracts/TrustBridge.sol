@@ -148,6 +148,8 @@ contract TrustBridge is ERC721URIStorage {
     function collectNFT(uint256 _nftId) public {
         require(_exists(_nftId), "NFT does not exist");
         require(!_hasCollected[msg.sender][_nftId], "NFT already collected");
+        require(_ownerOf(_nftId) != msg.sender, "Can't collect self nft");
+
         nfts[_nftId].collectCount++;
         _hasCollected[msg.sender][_nftId] = true;
 
