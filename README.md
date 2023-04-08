@@ -36,6 +36,10 @@ Overall, the Review Protocol on the Blockchain provides a powerful tool for crea
 
 - Score Weight Calculation: By adding score weight calculation, you can assign different weights to the reviews based on the reviewer's reputation or expertise in a particular subject. This will ensure that the most knowledgeable and trustworthy reviewers have a greater influence on the final score of the NFT, which will help to increase the accuracy and relevance of the reviews.
 
+- Social
+
+- Incentive
+
 ## Conclusion
 
 The review protocol on the blockchain offers a decentralized and transparent way to publish and review content. By leveraging the immutability and security of blockchain technology, this protocol can provide a tamper-proof record of all reviews and ratings, making it an ideal solution for online marketplaces, review sites, and social media platforms.
