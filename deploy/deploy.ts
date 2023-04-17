@@ -13,8 +13,9 @@ export default async function (hre: HardhatRuntimeEnvironment) {
 
   // Create deployer object and load the artifact of the contract we want to deploy.
   const deployer = new Deployer(hre, wallet)
-  const artifact = await deployer.loadArtifact('TrustBridgeNonUpgradable')
+  const artifact = await deployer.loadArtifact('TrustBridge')
 
+  // const greeting = 'Hi there!'
   // const greeterContract = await deployer.deploy(artifact, [greeting])
   const trustBridge = await deployer.deploy(artifact)
 
