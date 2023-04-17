@@ -5,7 +5,7 @@ import { Deployer } from '@matterlabs/hardhat-zksync-deploy'
 
 // An example of a deploy script that will deploy and call a simple contract.
 export default async function (hre: HardhatRuntimeEnvironment) {
-  console.log(`Running deploy script for the Greeter contract`)
+  console.log(`Running deploy script for the TrustBridge contract`)
 
   // Initialize the wallet.
   const private_key = process.env.PRIVATE_KEY ? process.env.PRIVATE_KEY : ''
@@ -15,13 +15,10 @@ export default async function (hre: HardhatRuntimeEnvironment) {
   const deployer = new Deployer(hre, wallet)
   const artifact = await deployer.loadArtifact('TrustBridge')
 
-  // Deploy this contract. The returned object will be of a `Contract` type, similarly to ones in `ethers`.
-  // `greeting` is an argument for contract constructor.
-  //   const greeting = 'Hi there!'
-  //   const greeterContract = await deployer.deploy(artifact, [greeting])
-  const greeterContract = await deployer.deploy(artifact)
+  // const greeterContract = await deployer.deploy(artifact, [greeting])
+  const trustBridge = await deployer.deploy(artifact)
 
   // Show the contract info.
-  const contractAddress = greeterContract.address
+  const contractAddress = trustBridge.address
   console.log(`${artifact.contractName} was deployed to ${contractAddress}`)
 }

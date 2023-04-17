@@ -3,6 +3,7 @@ import '@nomicfoundation/hardhat-toolbox'
 import '@matterlabs/hardhat-zksync-deploy'
 import '@matterlabs/hardhat-zksync-solc'
 import '@matterlabs/hardhat-zksync-verify'
+import '@openzeppelin/hardhat-upgrades'
 
 const INFURA_API_KEY = process.env.INFURA_API_KEY
 const ANKR_API_KEY = process.env.ANKR_API_KEY

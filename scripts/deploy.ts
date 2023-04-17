@@ -1,4 +1,4 @@
-import { ethers } from 'hardhat'
+import { ethers, upgrades } from 'hardhat'
 
 async function main() {
   const [deployer] = await ethers.getSigners()
@@ -7,8 +7,11 @@ async function main() {
   console.log('Account balance:', (await deployer.getBalance()).toString())
 
   const TrustBridge = await ethers.getContractFactory('TrustBridge')
-  const trustBridge = await TrustBridge.deploy()
 
+  // const trustBridge = await TrustBridge.deploy()
+  // await trustBridge.deployed()
+
+  const trustBridge = await upgrades.deployProxy(TrustBridge)
   await trustBridge.deployed()
 
   console.log(`TrustBridge deployed to ${trustBridge.address}`)

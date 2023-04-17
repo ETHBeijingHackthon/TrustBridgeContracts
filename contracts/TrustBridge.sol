@@ -1,12 +1,12 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.10;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 
 import {CustomDataTypes} from "./libraries/CustomDataTypes.sol";
 
-contract TrustBridge is ERC721URIStorage {
+contract TrustBridge is ERC721URIStorageUpgradeable {
     mapping(uint => CustomDataTypes.NFT) public nfts;
     mapping(uint256 => CustomDataTypes.Review[]) public reviews;
     mapping(address => mapping(uint256 => bool)) private _hasCollected;
@@ -39,8 +39,8 @@ contract TrustBridge is ERC721URIStorage {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
-    constructor() ERC721("TrustBridge", "TSB") {
-        _tokenIds.increment();
+    function initialize() public initializer {
+        __ERC721_init("TrustBridge", "TSB");
     }
 
     function createNFT(
